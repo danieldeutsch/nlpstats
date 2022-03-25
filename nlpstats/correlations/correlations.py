@@ -32,8 +32,8 @@ def _coefficient_iv(coefficient: Union[Callable, str]) -> Callable:
 def _correlation_iv(
     X: npt.ArrayLike, Z: npt.ArrayLike, coefficient: Union[Callable, str]
 ) -> Tuple[np.ndarray, np.ndarray, Callable]:
-    X = np.array(X)
-    Z = np.array(Z)
+    X = np.asarray(X)
+    Z = np.asarray(Z)
     if X.ndim != 2:
         raise ValueError(f"`X` must be two-dimensional")
     if Z.ndim != 2:
@@ -159,8 +159,8 @@ def correlate(
 def _correlate_iv(
     X: npt.ArrayLike, Z: npt.ArrayLike, level: str
 ) -> Tuple[np.ndarray, np.ndarray, Callable]:
-    X = np.array(X)
-    Z = np.array(Z)
+    X = np.asarray(X)
+    Z = np.asarray(Z)
 
     if level == "system":
         level = system_level

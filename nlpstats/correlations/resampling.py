@@ -138,8 +138,8 @@ def _permute_both(X: np.ndarray, Y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
 def _permute_iv(
     X: npt.ArrayLike, Y: npt.ArrayLike, permutation_method: str
 ) -> Tuple[np.ndarray, np.ndarray, Callable]:
-    X = np.array(X)
-    Y = np.array(Y)
+    X = np.asarray(X)
+    Y = np.asarray(Y)
 
     if isinstance(permutation_method, str):
         if permutation_method == "systems":
