@@ -12,20 +12,14 @@ class TestBootstrap(unittest.TestCase):
         X = np.random.rand(25, 50)
         Y = np.random.rand(25, 50)
 
-        lower, upper = bootstrap(X, Y, "system", "pearson", "both")
-        self.assertAlmostEqual(lower, -0.5297912355172001, places=4)
-        self.assertAlmostEqual(upper, 0.5460669817957821, places=4)
+        result = bootstrap(X, Y, "system", "pearson", "both")
+        self.assertAlmostEqual(result.lower, -0.5297912355172001, places=4)
+        self.assertAlmostEqual(result.upper, 0.5460669817957821, places=4)
 
-        lower, upper = bootstrap(X, Y, "input", "spearman", "inputs", n_resamples=100)
-        self.assertAlmostEqual(lower, -0.04338807692307692, places=4)
-        self.assertAlmostEqual(upper, 0.05723730769230765, places=4)
+        result = bootstrap(X, Y, "input", "spearman", "inputs", n_resamples=100)
+        self.assertAlmostEqual(result.lower, -0.04338807692307692, places=4)
+        self.assertAlmostEqual(result.upper, 0.05723730769230765, places=4)
 
-        lower, upper = bootstrap(X, Y, "global", "kendall", "systems")
-        self.assertAlmostEqual(lower, -0.0347037143864372, places=4)
-        self.assertAlmostEqual(upper, 0.028916791839461616, places=4)
-
-    def test_example(self):
-        X = np.random.rand(3, 4)
-        Y = np.random.rand(3, 4)
-        lower, upper = bootstrap(X, Y, "global", "pearson", "both")
-        print(lower, upper)
+        result = bootstrap(X, Y, "global", "kendall", "systems")
+        self.assertAlmostEqual(result.lower, -0.0347037143864372, places=4)
+        self.assertAlmostEqual(result.upper, 0.028916791839461616, places=4)

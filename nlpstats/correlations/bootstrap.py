@@ -1,9 +1,12 @@
 import numpy as np
 import numpy.typing as npt
+from collections import namedtuple
 from typing import Callable, Tuple, Union
 
 from nlpstats.correlations.correlations import correlate
 from nlpstats.correlations.resampling import resample
+
+BootstrapResult = namedtuple("BootstrapResult", ["lower", "upper", "samples"])
 
 
 def bootstrap(
@@ -15,7 +18,7 @@ def bootstrap(
     paired_inputs: bool = True,
     confidence_level: float = 0.95,
     n_resamples: int = 9999,
-) -> Tuple[float, float]:
+) -> BootstrapResult:
     _bootstrap_iv(level, paired_inputs, confidence_level, n_resamples)
 
     samples = []
@@ -28,7 +31,7 @@ def bootstrap(
     alpha = (1 - confidence_level) / 2
     lower = np.percentile(samples, alpha * 100)
     upper = np.percentile(samples, (1 - alpha) * 100)
-    return lower, upper
+    return BootstrapResult(lower, upper, samples)
 
 
 def _bootstrap_iv(
