@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 from collections import namedtuple
-from typing import Callable, Tuple, Union
+from typing import Callable, Union
 
 from nlpstats.correlations.correlations import correlate
 from nlpstats.correlations.resampling import resample
