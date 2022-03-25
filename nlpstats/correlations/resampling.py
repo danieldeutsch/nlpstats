@@ -91,3 +91,71 @@ def _resample_iv(
             raise ValueError(f"Unknown resampling method: {resampling_method}")
 
     return matrices, resampling_method
+
+
+def _permutation_iv(X: np.ndarray, Y: np.ndarray):
+    if X.ndim != 2:
+        raise ValueError(f"`X` must be two-dimensional")
+    if Y.ndim != 2:
+        raise ValueError(f"`Y` must be two-dimensional")
+    if X.shape != Y.shape:
+        raise ValueError(f"`X` and `Y` must be the same shape")
+
+
+def _permute_systems(X: np.ndarray, Y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    _permutation_iv(X, Y)
+
+    # Do not modify the original matrices
+    X_p = X.copy()
+    Y_p = Y.copy()
+
+    m = X.shape[0]
+    mask = (np.random.rand(m, 1) > 0.5).reshape((m,))
+    X_p[mask] = Y[mask]
+    Y_p[mask] = X[mask]
+    return X_p, Y_p
+
+
+def _permute_inputs(X: np.ndarray, Y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    _permutation_iv(X, Y)
+
+    # Do not modify the original matrices
+    X_p = X.copy()
+    Y_p = Y.copy()
+
+    n = X.shape[1]
+    mask = (np.random.rand(1, n) > 0.5).reshape((n,))
+    X_p[:, mask] = Y[:, mask]
+    Y_p[:, mask] = X[:, mask]
+    return X_p, Y_p
+
+
+def _permute_both(X: np.ndarray, Y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    X, Y = _permute_systems(X, Y)
+    return _permute_inputs(X, Y)
+
+
+def _permute_iv(
+    X: npt.ArrayLike, Y: npt.ArrayLike, permutation_method: str
+) -> Tuple[np.ndarray, np.ndarray, Callable]:
+    X = np.array(X)
+    Y = np.array(Y)
+
+    if isinstance(permutation_method, str):
+        if permutation_method == "systems":
+            permutation_method = _permute_systems
+        elif permutation_method == "inputs":
+            permutation_method = _permute_inputs
+        elif permutation_method == "both":
+            permutation_method = _permute_both
+        else:
+            raise ValueError(f"Unknown permutation method: {permutation_method}")
+
+    return X, Y, permutation_method
+
+
+def permute(
+    X: npt.ArrayLike, Y: npt.ArrayLike, permutation_method: str
+) -> Tuple[np.ndarray, np.ndarray]:
+    X, Y, permutation_method = _permute_iv(X, Y, permutation_method)
+    return permutation_method(X, Y)

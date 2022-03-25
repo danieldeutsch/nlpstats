@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.resampling import resample
+from nlpstats.correlations.resampling import permute, resample
 
 
 class TestResample(unittest.TestCase):
@@ -134,3 +134,75 @@ class TestResample(unittest.TestCase):
         message = "Unknown resampling method"
         with pytest.raises(ValueError, match=message):
             resample(X, "UNK")
+
+    def test_permute_systems(self):
+        # Set the random seed and ensure we know the expected rows
+        # that will be permuted
+        np.random.seed(5)
+        rows = np.random.rand(self.m) > 0.5
+        np.testing.assert_equal(rows, [0, 1, 0, 1])
+
+        # Reset seed and permute
+        np.random.seed(5)
+        X_p, Y_p = permute(self.X, self.Y, "systems")
+        np.testing.assert_equal(X_p, [[1, 2, 3], [16, 17, 18], [7, 8, 9], [22, 23, 24]])
+        np.testing.assert_equal(
+            Y_p, [[13, 14, 15], [4, 5, 6], [19, 20, 21], [10, 11, 12]]
+        )
+
+        # Ensure the original X and Y did not change
+        np.testing.assert_equal(self.X, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+        np.testing.assert_equal(
+            self.Y, [[13, 14, 15], [16, 17, 18], [19, 20, 21], [22, 23, 24]]
+        )
+
+    def test_permute_inputs(self):
+        # Set the random seed and ensure we know the expected columns
+        # that will be permuted
+        np.random.seed(5)
+        cols = np.random.rand(self.n) > 0.5
+        np.testing.assert_equal(cols, [0, 1, 0])
+
+        # Reset seed and permute
+        np.random.seed(5)
+        X_p, Y_p = permute(self.X, self.Y, "inputs")
+        np.testing.assert_equal(X_p, [[1, 14, 3], [4, 17, 6], [7, 20, 9], [10, 23, 12]])
+        np.testing.assert_equal(
+            Y_p, [[13, 2, 15], [16, 5, 18], [19, 8, 21], [22, 11, 24]]
+        )
+
+        # Ensure the original X and Y did not change
+        np.testing.assert_equal(self.X, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+        np.testing.assert_equal(
+            self.Y, [[13, 14, 15], [16, 17, 18], [19, 20, 21], [22, 23, 24]]
+        )
+
+    def test_permute_both(self):
+        # Set the random seed and ensure we know the expected rows
+        # and columns that will be permuted
+        np.random.seed(5)
+        rows = np.random.rand(self.m) > 0.5
+        cols = np.random.rand(self.n) > 0.5
+        np.testing.assert_equal(rows, [0, 1, 0, 1])
+        np.testing.assert_equal(cols, [0, 1, 1])
+
+        # Reset seed and permute
+        np.random.seed(5)
+        X_p, Y_p = permute(self.X, self.Y, "both")
+        np.testing.assert_equal(X_p, [[1, 14, 15], [16, 5, 6], [7, 20, 21], [22, 11, 12]])
+        np.testing.assert_equal(
+            Y_p, [[13, 2, 3], [4, 17, 18], [19, 8, 9], [10, 23, 24]]
+        )
+
+        # Ensure the original X and Y did not change
+        np.testing.assert_equal(self.X, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+        np.testing.assert_equal(
+            self.Y, [[13, 14, 15], [16, 17, 18], [19, 20, 21], [22, 23, 24]]
+        )
+
+    def test_permute_iv(self):
+        X = np.random.rand(3, 4)
+        Y = np.random.rand(3, 4)
+        message = "Unknown permutation method"
+        with pytest.raises(ValueError, match=message):
+            permute(X, Y, "UNK")
