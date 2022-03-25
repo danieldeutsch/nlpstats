@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import unittest
 
 from nlpstats.correlations.resampling import resample
@@ -122,3 +123,14 @@ class TestResample(unittest.TestCase):
         np.testing.assert_equal(
             Y_s, [[15, 14, 14], [24, 23, 23], [18, 17, 17], [15, 14, 14]]
         )
+
+    def test_resample_iv(self):
+        X = [[1, 2, 3], [4, 5, 6]]
+        message = "Input `matrices` must all be of type `np.ndarray`"
+        with pytest.raises(TypeError, match=message):
+            resample(X, "systems")
+
+        X = np.array(X)
+        message = "Unknown resampling method"
+        with pytest.raises(ValueError, match=message):
+            resample(X, "UNK")

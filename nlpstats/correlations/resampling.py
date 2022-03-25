@@ -4,6 +4,7 @@ from typing import Callable, List, Sequence, Tuple, Union
 
 
 def _resample_systems(matrices: List[np.ndarray], **kwargs) -> List[np.ndarray]:
+    _resample_systems_iv(matrices)
     m = matrices[0].shape[0]
     rows = np.random.choice(m, m, replace=True)
     return [matrix[rows] for matrix in matrices]
@@ -19,6 +20,7 @@ def _resample_systems_iv(matrices: List[np.ndarray]) -> None:
 def _resample_inputs(
     matrices: List[np.ndarray], paired_inputs: bool
 ) -> List[np.ndarray]:
+    _resample_inputs_iv(matrices, paired_inputs)
     if paired_inputs:
         n = matrices[0].shape[1]
         cols = np.random.choice(n, n, replace=True)
@@ -43,6 +45,7 @@ def _resample_inputs_iv(matrices: List[np.ndarray], paired_inputs: bool) -> None
 
 
 def _resample_both(matrices: List[np.ndarray], paired_inputs: bool) -> List[np.ndarray]:
+    _resample_both_iv(matrices, paired_inputs)
     matrices = _resample_systems(matrices)
     return _resample_inputs(matrices, paired_inputs)
 
@@ -57,9 +60,7 @@ def resample(
     resampling_method: Union[Callable, str],
     paired_inputs: bool = True,
 ) -> Union[np.ndarray, Tuple[np.ndarray, ...]]:
-    matrices, resampling_method = _resample_iv(
-        matrices, resampling_method, paired_inputs
-    )
+    matrices, resampling_method = _resample_iv(matrices, resampling_method)
     resamples = resampling_method(matrices, paired_inputs=paired_inputs)
     if len(resamples) == 1:
         return resamples[0]
@@ -69,7 +70,6 @@ def resample(
 def _resample_iv(
     matrices: Union[npt.ArrayLike, Sequence[npt.ArrayLike]],
     resampling_method: Union[Callable, str],
-    paired_inputs: bool,
 ) -> Tuple[Sequence[np.ndarray], Callable]:
     # If the input is just one matrix, wrap it into a list
     if isinstance(matrices, np.ndarray):
@@ -80,16 +80,14 @@ def _resample_iv(
         if not isinstance(matrix, np.ndarray):
             raise TypeError(f"Input `matrices` must all be of type `np.ndarray`")
 
-    if resampling_method == "systems":
-        resampling_method = _resample_systems
-        _resample_systems_iv(matrices)
-
-    elif resampling_method == "inputs":
-        resampling_method = _resample_inputs
-        _resample_inputs_iv(matrices, paired_inputs)
-
-    elif resampling_method == "both":
-        resampling_method = _resample_both
-        _resample_both_iv(matrices, paired_inputs)
+    if isinstance(resampling_method, str):
+        if resampling_method == "systems":
+            resampling_method = _resample_systems
+        elif resampling_method == "inputs":
+            resampling_method = _resample_inputs
+        elif resampling_method == "both":
+            resampling_method = _resample_both
+        else:
+            raise ValueError(f"Unknown resampling method: {resampling_method}")
 
     return matrices, resampling_method
