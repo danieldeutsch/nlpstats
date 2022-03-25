@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.permutation import permutation_test
+from nlpstats.correlations import permutation_test
 
 
 class TestPermutation(unittest.TestCase):

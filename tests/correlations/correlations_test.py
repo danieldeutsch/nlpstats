@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.correlations import (
+from nlpstats.correlations import (
     correlate,
     global_level,
     input_level,

@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.bootstrap import bootstrap
+from nlpstats.correlations import bootstrap
 
 
 class TestBootstrap(unittest.TestCase):

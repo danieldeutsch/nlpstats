@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.resampling import permute, resample
+from nlpstats.correlations import permute, resample
 
 
 class TestResample(unittest.TestCase):

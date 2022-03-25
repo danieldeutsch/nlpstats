@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.williams import williams_test
+from nlpstats.correlations import williams_test
 
 
 class TestWilliams(unittest.TestCase):

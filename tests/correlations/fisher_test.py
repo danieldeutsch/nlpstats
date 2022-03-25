@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import unittest
 
-from nlpstats.correlations.fisher import fisher
+from nlpstats.correlations import fisher
 
 
 class TestFisher(unittest.TestCase):
