@@ -50,9 +50,13 @@ class TestBootstrap(unittest.TestCase):
         X = np.random.rand(3, 4)
         Y = np.random.rand(3, 4)
 
-        message = "`paired_inputs` must be `True` for input-level correlations"
+        message = (
+            "`paired_inputs` must be `True` for input- or global-level correlations"
+        )
         with pytest.raises(ValueError, match=message):
             bootstrap(X, Y, "input", "pearson", "both", paired_inputs=False)
+        with pytest.raises(ValueError, match=message):
+            bootstrap(X, Y, "global", "pearson", "both", paired_inputs=False)
 
         message = "`confidence_level` must be between 0 and 1"
         with pytest.raises(ValueError, match=message):

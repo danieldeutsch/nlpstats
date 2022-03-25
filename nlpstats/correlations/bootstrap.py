@@ -37,8 +37,8 @@ def bootstrap(
 def _bootstrap_iv(
     level: str, paired_inputs: bool, confidence_level: float, n_resamples: int,
 ):
-    if not paired_inputs and level == "input":
-        raise ValueError(f"`paired_inputs` must be `True` for input-level correlations")
+    if not paired_inputs and level in {"input", "global"}:
+        raise ValueError(f"`paired_inputs` must be `True` for input- or global-level correlations")
 
     if confidence_level <= 0 or confidence_level >= 1:
         raise ValueError(f"`confidence_level` must be between 0 and 1 (exclusive)")

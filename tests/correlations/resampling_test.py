@@ -189,7 +189,9 @@ class TestResample(unittest.TestCase):
         # Reset seed and permute
         np.random.seed(5)
         X_p, Y_p = permute(self.X, self.Y, "both")
-        np.testing.assert_equal(X_p, [[1, 14, 15], [16, 5, 6], [7, 20, 21], [22, 11, 12]])
+        np.testing.assert_equal(
+            X_p, [[1, 14, 15], [16, 5, 6], [7, 20, 21], [22, 11, 12]]
+        )
         np.testing.assert_equal(
             Y_p, [[13, 2, 3], [4, 17, 18], [19, 8, 9], [10, 23, 24]]
         )
