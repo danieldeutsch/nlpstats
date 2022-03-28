@@ -19,7 +19,7 @@ def bootstrap(
     confidence_level: float = 0.95,
     n_resamples: int = 9999,
 ) -> BootstrapResult:
-    _bootstrap_iv(level, paired_inputs, confidence_level, n_resamples)
+    X, Z = _bootstrap_iv(X, Z, level, paired_inputs, confidence_level, n_resamples)
 
     samples = []
     for _ in range(n_resamples):
@@ -35,8 +35,11 @@ def bootstrap(
 
 
 def _bootstrap_iv(
-    level: str, paired_inputs: bool, confidence_level: float, n_resamples: int,
+    X: npt.ArrayLike, Z: npt.ArrayLike, level: str, paired_inputs: bool, confidence_level: float, n_resamples: int,
 ):
+    X = np.asarray(X)
+    Z = np.asarray(Z)
+
     if not paired_inputs and level in {"input", "global"}:
         raise ValueError(
             f"`paired_inputs` must be `True` for input- or global-level correlations"
@@ -47,3 +50,5 @@ def _bootstrap_iv(
 
     if n_resamples <= 0:
         raise ValueError(f"`n_resamples` must be a positive integer")
+
+    return X, Z
