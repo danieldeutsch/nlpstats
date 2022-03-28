@@ -70,7 +70,9 @@ def _system_level_iv(
 
 
 def input_level(
-    X: npt.ArrayLike, Z: npt.ArrayLike, coefficient: Union[Callable, str],
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    coefficient: Union[Callable, str],
 ) -> float:
     X, Z, coefficient = _input_level_iv(X, Z, coefficient)
     n = X.shape[1]
@@ -93,7 +95,9 @@ def input_level(
 
 
 def _input_level_iv(
-    X: npt.ArrayLike, Z: npt.ArrayLike, coefficient: Union[Callable, str],
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    coefficient: Union[Callable, str],
 ) -> Tuple[np.ndarray, np.ndarray, Callable]:
     X, Z, coefficient = _correlation_iv(X, Z, coefficient)
 
@@ -114,7 +118,9 @@ def _input_level_iv(
 
 
 def global_level(
-    X: npt.ArrayLike, Z: npt.ArrayLike, coefficient: Union[Callable, str],
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    coefficient: Union[Callable, str],
 ) -> float:
     X, Z, coefficient = _global_level_iv(X, Z, coefficient)
 
@@ -131,7 +137,9 @@ def global_level(
 
 
 def _global_level_iv(
-    X: npt.ArrayLike, Z: npt.ArrayLike, coefficient: Union[Callable, str],
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    coefficient: Union[Callable, str],
 ) -> Tuple[np.ndarray, np.ndarray, Callable]:
     X, Z, coefficient = _correlation_iv(X, Z, coefficient)
 
@@ -150,7 +158,10 @@ def _global_level_iv(
 
 
 def correlate(
-    X: npt.ArrayLike, Z: npt.ArrayLike, level: str, coefficient: Union[Callable, str],
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    level: str,
+    coefficient: Union[Callable, str],
 ) -> float:
     X, Z, level = _correlate_iv(X, Z, level)
     return level(X, Z, coefficient)

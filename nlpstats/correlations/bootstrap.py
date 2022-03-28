@@ -35,7 +35,12 @@ def bootstrap(
 
 
 def _bootstrap_iv(
-    X: npt.ArrayLike, Z: npt.ArrayLike, level: str, paired_inputs: bool, confidence_level: float, n_resamples: int,
+    X: npt.ArrayLike,
+    Z: npt.ArrayLike,
+    level: str,
+    paired_inputs: bool,
+    confidence_level: float,
+    n_resamples: int,
 ):
     X = np.asarray(X)
     Z = np.asarray(Z)
