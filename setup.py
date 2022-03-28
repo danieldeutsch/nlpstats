@@ -15,7 +15,7 @@ setuptools.setup(
     description="A statistical toolbox for NLP",
     url="https://github.com/danieldeutsch/nlpstats",
     packages=setuptools.find_packages(exclude=["tests", "tests.*"]),
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     include_package_data=True,
     install_requires=[
         "numpy>=1.20.0",
