@@ -6,5 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [v0.0.1](https://github.com/danieldeutsch/nlpstats/releases/tag/v0.0.1) - 2022-03-28
 ### Added
 - Added the `nlpstats.correlations` package, which contains tools for meta-evaluating metrics, such as bootstrapping and permutation tests. 
