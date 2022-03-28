@@ -17,8 +17,5 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=["tests", "tests.*"]),
     python_requires=">=3.7",
     include_package_data=True,
-    install_requires=[
-        "numpy>=1.20.0",
-        "scipy",
-    ],
+    install_requires=["numpy>=1.20.0", "scipy",],
 )
