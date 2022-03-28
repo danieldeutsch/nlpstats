@@ -7,6 +7,5 @@ from nlpstats.correlations.correlations import (
     input_level,
     system_level,
 )
-from nlpstats.correlations.delta_correlations import delta_correlations
 from nlpstats.correlations.bootstrap import bootstrap
 from nlpstats.correlations.permutation import permutation_test
