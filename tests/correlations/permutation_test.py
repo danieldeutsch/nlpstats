@@ -42,27 +42,10 @@ class TestPermutation(unittest.TestCase):
         )
         self.assertAlmostEqual(result.pvalue, 0.519, places=4)
 
-        # Unpaired inputs
-        X = np.random.random((9, 30))
-        Y = np.random.random((9, 30))
-
-        result = permutation_test(
-            X, Y, Z, "system", "kendall", "both", n_resamples=1000, paired_inputs=False
-        )
-        self.assertAlmostEqual(result.pvalue, 0.126, places=4)
-
     def test_permutation_test_iv(self):
         X = np.random.random((9, 5))
         Y = np.random.random((9, 5))
         Z = np.random.random((9, 5))
-
-        message = (
-            "`paired_inputs` must be `True` for input- or global-level correlations"
-        )
-        with pytest.raises(ValueError, match=message):
-            permutation_test(X, Y, Z, "input", "pearson", "both", paired_inputs=False)
-        with pytest.raises(ValueError, match=message):
-            permutation_test(X, Y, Z, "global", "pearson", "both", paired_inputs=False)
 
         message = "Unknown alternative"
         with pytest.raises(ValueError, match=message):
