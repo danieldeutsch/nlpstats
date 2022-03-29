@@ -62,7 +62,7 @@ def fisher(
     if coefficient == "pearson":
         b, c = 3, 1
     elif coefficient == "spearman":
-        b, c = 3, np.sqrt(1 + r ** 2 / 2)
+        b, c = 3, np.sqrt(1 + r**2 / 2)
     elif coefficient == "kendall":
         b, c = 4, np.sqrt(0.437)
     else:
