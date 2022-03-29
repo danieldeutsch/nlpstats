@@ -1,5 +1,2 @@
 black
 pytest
-sphinx
-numpydoc
-furo
