@@ -1,12 +1,14 @@
 import numpy as np
 import numpy.typing as npt
 import scipy.stats
-from collections import namedtuple
-from typing import Callable, Union
+from typing import Callable, NamedTuple, Union
 
 from nlpstats.correlations.correlations import correlate
 
-WilliamsResult = namedtuple("WilliamsResult", ["pvalue"])
+
+class WilliamsResult(NamedTuple):
+    pvalue: float
+    """The p-value of the test"""
 
 
 def williams_test(
@@ -17,6 +19,48 @@ def williams_test(
     coefficient: Union[Callable, str],
     alternative: str = "two-sided",
 ) -> WilliamsResult:
+    """Calculates a hypothesis test between two correlations using Williams' test.
+
+    See `Graham & Baldwin (2014) <https://aclanthology.org/D14-1020.pdf>`_
+    for details on Williams' test.
+
+    The rows of :code:`X`, :code:`Y`, and :code:`Z` must correspond
+    to each other, and the columns of :code:`X` and :code:`Y` must too.
+    For input- and global-level correlations, the columns of :code:`X`
+    and :code:`Y` must also be paired with those of :code:`Z`.
+
+    If a value from the matrices is missing, it should be replaced with
+    :code:`np.nan`. The :code:`np.nan` locations must always be identical for
+    :code:`X` and :code:`Y`. The same is true for :code:`Z` for input- and
+    global-level correlations.
+
+    Parameters
+    ----------
+    X : npt.ArrayLike
+        A two-dimensional score matrix in which :code:`X[i][j]` contains the
+        :code:`X` score for the :code:`i` th system on the :code:`j` th input.
+    Y : npt.ArrayLike
+        A two-dimensional score matrix in which :code:`Y[i][j]` contains the
+        :code:`Y` score for the :code:`i` th system on the :code:`j` th input.
+    Z : npt.ArrayLike
+        A two-dimensional score matrix in which :code:`Z[i][j]` contains the
+        :code:`Z` score for the :code:`i` th system on the :code:`j` th input.
+    level : str
+        The level of correlation, either :code:`"system"`, :code:`"input"`, or :code:`"global"`.
+    coefficient : Union[Callable, str]
+        The correlation coefficient to use, either :code:`"pearson"`, :code:`"spearman"`,
+        :code:`"kendall"`.
+    alternative : str
+        The alternative hypothesis. :code:`"two-sided"` corresponds to an alternative
+        hypothesis that :math:`r(X, Z) \\neq r(Y, Z)`, :code:`"greater"` correponds
+        to :math:`r(X, Z) > r(Y, Z)` and :code:`"less"` corresponds to
+        :math:`r(X, Z) < r(Y, Z)`.
+
+    Returns
+    -------
+    WilliamsResult
+    """
+
     # In the math, Z is metric 1. We take the absolute value of the correlations because
     # it does not matter whether they are positively or negatively correlated with each other. The WMT scripts
     # do the same before calling r.test

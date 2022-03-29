@@ -11,6 +11,8 @@ The library can be installed via pip:
 
     pip install nlpstats
 
+The source code can be found on `GitHub <https://github.com/danieldeutsch/nlpstats>`_.
+
 .. toctree::
    :hidden:
 
