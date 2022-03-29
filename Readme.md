@@ -1,4 +1,7 @@
 # NLP Stats
+![Main](https://github.com/danieldeutsch/nlpstats/workflows/Main/badge.svg?branch=main&event=push)
+[![Documentation Status](https://readthedocs.org/projects/nlpstats/badge/?version=latest)](https://nlpstats.readthedocs.io/en/latest/?badge=latest)
+
 NLP Stats is a library with statistical tools for NLP.
 For usage information, see [our documentation](https://nlpstats.readthedocs.io/en/latest/index.html).
 
